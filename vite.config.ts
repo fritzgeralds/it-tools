@@ -1,9 +1,8 @@
-import { resolve } from 'node:path';
-import { URL, fileURLToPath } from 'node:url';
-
 import VueI18n from '@intlify/unplugin-vue-i18n/vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import { resolve } from 'node:path';
+import { fileURLToPath, URL } from 'node:url';
 import Unocss from 'unocss/vite';
 import AutoImport from 'unplugin-auto-import/vite';
 import IconsResolver from 'unplugin-icons/resolver';
@@ -27,9 +26,7 @@ export default defineConfig({
       compositionOnly: true,
       fullInstall: true,
       strictMessage: false,
-      include: [
-        resolve(__dirname, 'locales/**'),
-      ],
+      include: [resolve(__dirname, 'locales/**')],
     }),
     AutoImport({
       imports: [
@@ -63,7 +60,7 @@ export default defineConfig({
         lang: 'fr-FR',
         start_url: `${baseUrl}?utm_source=pwa&utm_medium=pwa`,
         orientation: 'any',
-        theme_color: '#18a058',
+        theme_color: '#186acc',
         background_color: '#f1f5f9',
         icons: [
           {

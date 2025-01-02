@@ -4,6 +4,7 @@ home:
     favoriteTools: 'Your favorite tools'
     allTools: 'All the tools'
     favoritesDndToolTip: 'Drag and drop to reorder favorites'
+  title: 'Dev Tools'
   subtitle: 'Handy tools for developers'
   toggleMenu: 'Toggle menu'
   home: Home

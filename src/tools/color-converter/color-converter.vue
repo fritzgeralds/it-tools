@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { Colord } from 'colord';
 import { colord, extend } from 'colord';
-import _ from 'lodash';
 import cmykPlugin from 'colord/plugins/cmyk';
 import hwbPlugin from 'colord/plugins/hwb';
-import namesPlugin from 'colord/plugins/names';
 import lchPlugin from 'colord/plugins/lch';
+import namesPlugin from 'colord/plugins/names';
+import _ from 'lodash';
 import { buildColorFormat } from './color-converter.models';
 
 extend([cmykPlugin, hwbPlugin, namesPlugin, lchPlugin]);
@@ -53,7 +53,7 @@ const formats = {
   }),
 };
 
-updateColorValue(colord('#1ea54c'));
+updateColorValue(colord('#1f74de'));
 
 function updateColorValue(value: Colord | undefined, omitLabel?: string) {
   if (value === undefined) {
@@ -78,24 +78,30 @@ function updateColorValue(value: Colord | undefined, omitLabel?: string) {
       <input-copyable
         v-if="type === 'text'"
         v-model:value="formats[key].value.value"
-        :test-id="`input-${key}`"
         :label="`${label}:`"
+        :placeholder="placeholder"
+        :test-id="`input-${key}`"
+        :validation="validation"
+        clearable
+        label-align="right"
         label-position="left"
         label-width="100px"
-        label-align="right"
-        :placeholder="placeholder"
-        :validation="validation"
-        raw-text
-        clearable
         mt-2
-        @update:value="(v:string) => updateColorValue(parse(v), key)"
+        raw-text
+        @update:value="(v: string) => updateColorValue(parse(v), key)"
       />
 
-      <n-form-item v-else-if="type === 'color-picker'" :label="`${label}:`" label-width="100" label-placement="left" :show-feedback="false">
+      <n-form-item
+        v-else-if="type === 'color-picker'"
+        :label="`${label}:`"
+        :show-feedback="false"
+        label-placement="left"
+        label-width="100"
+      >
         <n-color-picker
           v-model:value="formats[key].value.value"
           placement="bottom-end"
-          @update:value="(v:string) => updateColorValue(parse(v), key)"
+          @update:value="(v: string) => updateColorValue(parse(v), key)"
         />
       </n-form-item>
     </template>

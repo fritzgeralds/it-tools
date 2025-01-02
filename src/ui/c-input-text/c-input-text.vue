@@ -1,36 +1,36 @@
 <script lang="ts" setup>
+import { useValidation, type UseValidationRule } from '@/composable/validation';
+import { generateRandomId } from '@/utils/random';
 import { useAppTheme } from '../theme/themes';
 import { useTheme } from './c-input-text.theme';
-import { generateRandomId } from '@/utils/random';
-import { type UseValidationRule, useValidation } from '@/composable/validation';
 
 const props = withDefaults(
   defineProps<{
-    value?: string
-    id?: string
-    placeholder?: string
-    label?: string
-    readonly?: boolean
-    disabled?: boolean
-    validationRules?: UseValidationRule<string>[]
-    validationWatch?: Ref<unknown>[]
-    validation?: ReturnType<typeof useValidation>
-    labelPosition?: 'top' | 'left'
-    labelWidth?: string
-    labelAlign?: 'left' | 'right'
-    clearable?: boolean
-    testId?: string
-    autocapitalize?: 'none' | 'sentences' | 'words' | 'characters' | 'on' | 'off' | string
-    autocomplete?: 'on' | 'off' | string
-    autocorrect?: 'on' | 'off' | string
-    spellcheck?: 'true' | 'false' | boolean
-    rawText?: boolean
-    type?: 'text' | 'password'
-    multiline?: boolean
-    rows?: number | string
-    autosize?: boolean
-    autofocus?: boolean
-    monospace?: boolean
+    value?: string;
+    id?: string;
+    placeholder?: string;
+    label?: string;
+    readonly?: boolean;
+    disabled?: boolean;
+    validationRules?: UseValidationRule<string>[];
+    validationWatch?: Ref<unknown>[];
+    validation?: ReturnType<typeof useValidation>;
+    labelPosition?: 'top' | 'left';
+    labelWidth?: string;
+    labelAlign?: 'left' | 'right';
+    clearable?: boolean;
+    testId?: string;
+    autocapitalize?: 'none' | 'sentences' | 'words' | 'characters' | 'on' | 'off' | string;
+    autocomplete?: 'on' | 'off' | string;
+    autocorrect?: 'on' | 'off' | string;
+    spellcheck?: 'true' | 'false' | boolean;
+    rawText?: boolean;
+    type?: 'text' | 'password';
+    multiline?: boolean;
+    rows?: number | string;
+    autosize?: boolean;
+    autofocus?: boolean;
+    monospace?: boolean;
   }>(),
   {
     value: '',
@@ -64,11 +64,29 @@ const emit = defineEmits(['update:value']);
 const value = useVModel(props, 'value', emit);
 const showPassword = ref(false);
 
-const { id, placeholder, label, validationRules, labelPosition, labelWidth, labelAlign, autosize, readonly, disabled, clearable, type, multiline, rows, rawText, autofocus, monospace } = toRefs(props);
+const {
+  id,
+  placeholder,
+  label,
+  validationRules,
+  labelPosition,
+  labelWidth,
+  labelAlign,
+  autosize,
+  readonly,
+  disabled,
+  clearable,
+  type,
+  multiline,
+  rows,
+  rawText,
+  autofocus,
+  monospace,
+} = toRefs(props);
 
-const validation
-  = props.validation
-  ?? useValidation({
+const validation =
+  props.validation ??
+  useValidation({
     rules: validationRules,
     source: value,
     watch: props.validationWatch,
@@ -83,11 +101,12 @@ const inputWrapperRef = ref<HTMLElement>();
 
 watch(
   [value, autosize, multiline, inputWrapperRef, textareaRef],
-  () => nextTick(() => {
-    if (props.multiline && autosize.value) {
-      resizeTextarea();
-    }
-  }),
+  () =>
+    nextTick(() => {
+      if (props.multiline && autosize.value) {
+        resizeTextarea();
+      }
+    }),
   { immediate: true },
 );
 
@@ -144,8 +163,8 @@ defineExpose({
 
 <template>
   <div
+    :class="{ disabled, error: !validation.isValid, 'label-left': labelPosition === 'left', multiline }"
     class="c-input-text"
-    :class="{ disabled, 'error': !validation.isValid, 'label-left': labelPosition === 'left', multiline }"
   >
     <label v-if="label" :for="id" class="label"> {{ label }} </label>
 
@@ -158,19 +177,19 @@ defineExpose({
           :id="id"
           ref="textareaRef"
           v-model="value"
-          class="input"
-          :class="{
-            'leading-5 !font-mono': monospace,
-          }"
-          :placeholder="placeholder"
-          :readonly="readonly"
-          :disabled="disabled"
-          :data-test-id="testId"
           :autocapitalize="autocapitalize ?? (rawText ? 'off' : undefined)"
           :autocomplete="autocomplete ?? (rawText ? 'off' : undefined)"
           :autocorrect="autocorrect ?? (rawText ? 'off' : undefined)"
-          :spellcheck="spellcheck ?? (rawText ? false : undefined)"
+          :class="{
+            'leading-5 !font-mono': monospace,
+          }"
+          :data-test-id="testId"
+          :disabled="disabled"
+          :placeholder="placeholder"
+          :readonly="readonly"
           :rows="rows"
+          :spellcheck="spellcheck ?? (rawText ? false : undefined)"
+          class="input"
         />
 
         <input
@@ -178,27 +197,27 @@ defineExpose({
           :id="id"
           ref="inputRef"
           v-model="value"
-          :type="htmlInputType"
-          class="input"
-          :class="{
-            'leading-5 !font-mono': monospace,
-          }"
-          size="1"
-          :placeholder="placeholder"
-          :readonly="readonly"
-          :disabled="disabled"
-          :data-test-id="testId"
           :autocapitalize="autocapitalize ?? (rawText ? 'off' : undefined)"
           :autocomplete="autocomplete ?? (rawText ? 'off' : undefined)"
           :autocorrect="autocorrect ?? (rawText ? 'off' : undefined)"
+          :class="{
+            'leading-5 !font-mono': monospace,
+          }"
+          :data-test-id="testId"
+          :disabled="disabled"
+          :placeholder="placeholder"
+          :readonly="readonly"
           :spellcheck="spellcheck ?? (rawText ? false : undefined)"
-        >
+          :type="htmlInputType"
+          class="input"
+          size="1"
+        />
 
-        <c-button v-if="clearable && value" variant="text" circle size="small" @click="value = ''">
+        <c-button v-if="clearable && value" circle size="small" variant="text" @click="value = ''">
           <icon-mdi-close />
         </c-button>
 
-        <c-button v-if="type === 'password'" variant="text" circle size="small" @click="showPassword = !showPassword">
+        <c-button v-if="type === 'password'" circle size="small" variant="text" @click="showPassword = !showPassword">
           <icon-mdi-eye v-if="!showPassword" />
           <icon-mdi-eye-off v-if="showPassword" />
         </c-button>

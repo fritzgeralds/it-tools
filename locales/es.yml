@@ -4,6 +4,7 @@ home:
     favoriteTools: 'Tus herramientas favoritas'
     allTools: 'Todas las herramientas'
     favoritesDndToolTip: 'Arrastra y suelta para reordenar favoritos'
+  title: 'Herramientas de desarrollo'
   subtitle: 'Herramientas practicas para desarrolladores'
   toggleMenu: 'Toggle menu'
   home: Home

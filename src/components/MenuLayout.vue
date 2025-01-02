@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useStyleStore } from '@/stores/style.store';
 
 const styleStore = useStyleStore();
@@ -9,14 +9,14 @@ const siderPosition = computed(() => (isSmallScreen.value ? 'absolute' : 'static
 <template>
   <n-layout has-sider>
     <n-layout-sider
-      bordered
-      collapse-mode="width"
-      :collapsed-width="0"
-      :width="240"
       :collapsed="isMenuCollapsed"
-      :show-trigger="false"
+      :collapsed-width="0"
       :native-scrollbar="false"
       :position="siderPosition"
+      :show-trigger="false"
+      :width="240"
+      bordered
+      collapse-mode="width"
     >
       <slot name="sider" />
     </n-layout-sider>
@@ -39,7 +39,6 @@ const siderPosition = computed(() => (isSmallScreen.value ? 'absolute' : 'static
 }
 
 .content {
-  // background-color: #f1f5f9;
   ::v-deep(.n-layout-scroll-container) {
     padding: 26px;
   }

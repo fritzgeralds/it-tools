@@ -1,16 +1,16 @@
-<script setup lang="ts">
+<script lang="ts" setup>
+import { config } from '@/config';
+import { useToolStore } from '@/tools/tools.store';
 import { IconDragDrop, IconFileDescription, IconHeart } from '@tabler/icons-vue';
 import { useHead } from '@vueuse/head';
 import { computed } from 'vue';
 import Draggable from 'vuedraggable';
 import ColoredCard from '../components/ColoredCard.vue';
 import ToolCard from '../components/ToolCard.vue';
-import { useToolStore } from '@/tools/tools.store';
-import { config } from '@/config';
 
 const toolStore = useToolStore();
 
-useHead({ title: 'IT Tools - Handy online tools for developers' });
+useHead({ title: 'Dev Tools - Handy tools for developers' });
 const { t } = useI18n();
 
 const favoriteTools = computed(() => toolStore.favoriteTools);
@@ -25,26 +25,33 @@ function onUpdateFavoriteTools() {
   <div class="pt-50px">
     <div class="grid-wrapper">
       <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
-        <ColoredCard v-if="config.showBanner" :title="$t('home.follow.title')" :icon="IconHeart">
+        <ColoredCard v-if="config.showBanner" :icon="IconHeart" :title="$t('home.follow.title')">
           {{ $t('home.follow.p1') }}
           <a
+            :aria-label="$t('home.follow.githubRepository')"
             href="https://github.com/CorentinTh/it-tools"
             rel="noopener"
             target="_blank"
-            :aria-label="$t('home.follow.githubRepository')"
-          >GitHub</a>
+            >GitHub</a
+          >
           {{ $t('home.follow.p2') }}
           <a
+            :aria-label="$t('home.follow.twitterXAccount')"
             href="https://x.com/ittoolsdottech"
             rel="noopener"
             target="_blank"
-            :aria-label="$t('home.follow.twitterXAccount')"
-          >X</a>.
+            >X</a
+          >.
           {{ $t('home.follow.thankYou') }}
           <n-icon :component="IconHeart" />
         </ColoredCard>
 
-        <a href="https://renderize.tech?utm_source=it-tools&utm_medium=banner" target="_blank" rel="noopener" class="text-current decoration-none">
+        <a
+          class="text-current decoration-none"
+          href="https://renderize.tech?utm_source=it-tools&utm_medium=banner"
+          rel="noopener"
+          target="_blank"
+        >
           <c-card v-if="config.showSponsorBanner" class="cursor-pointer !border-2px !hover:border-primary">
             <div class="flex items-center justify-between">
               <n-icon :component="IconFileDescription" class="text-neutral-400 dark:text-neutral-600" size="40" />
@@ -104,7 +111,7 @@ function onUpdateFavoriteTools() {
   </div>
 </template>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 .height-enter-active,
 .height-leave-active {
   transition: all 0.5s ease-in-out;
@@ -136,7 +143,7 @@ function onUpdateFavoriteTools() {
   }
   100% {
     opacity: 0.4;
-    transform: scale(1.0);
+    transform: scale(1);
   }
 }
 </style>
